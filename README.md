@@ -1,4 +1,4 @@
-# README #
+# README - NO REALLY -- README!#
 
 Welcome to the UChicago Project Lab Community Repo where you will be able to share in a truly open source manner all the brilliant ideas and fails that you come up with. 
 
