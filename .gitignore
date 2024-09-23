@@ -7,6 +7,14 @@
 node_modules/
 dist/
 
+#Large Date files
+*.parquet
+*.csv
+*.pkl
+*.gz
+*.pickle
+
+
 # Compiled Java class files
 *.class
 
@@ -47,4 +55,5 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+*.pdf
 
