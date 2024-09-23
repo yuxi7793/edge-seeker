@@ -1,0 +1,6 @@
+[submodule "pyfolio-reloaded"]
+	path = pyfolio-reloaded
+	url = https://github.com/stefan-jansen/pyfolio-reloaded.git
+[submodule "zipline-reloaded"]
+	path = zipline-reloaded
+	url = https://github.com/stefan-jansen/zipline-reloaded.git
