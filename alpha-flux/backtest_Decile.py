@@ -15,10 +15,12 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run the backtest with specified settings and parameter ranges.")
 
     # Basic settings
-    parser.add_argument("--start-date", type=str, default="2008-01-10", help="Backtest start date (YYYY-MM-DD)")
-    parser.add_argument("--end-date", type=str, default="2022-12-31", help="Backtest end date (YYYY-MM-DD)")
-    parser.add_argument("--fiscal-start-year", type=int, default=2007, help="Fiscal start year")
-    parser.add_argument("--fiscal-end-year", type=int, default=2022, help="Fiscal end year")
+    # parser.add_argument("--start-date", type=str, default="2008-01-10", help="Backtest start date (YYYY-MM-DD)")
+    # parser.add_argument("--end-date", type=str, default="2022-12-31", help="Backtest end date (YYYY-MM-DD)")
+    parser.add_argument("--start-date", type=str, default="2020-01-01", help="Backtest start date (YYYY-MM-DD)")
+    parser.add_argument("--end-date", type=str, default="2024-10-11", help="Backtest end date (YYYY-MM-DD)")
+    parser.add_argument("--fiscal-start-year", type=int, default=2022, help="Fiscal start year")
+    parser.add_argument("--fiscal-end-year", type=int, default=2024, help="Fiscal end year")
 
     # Data source and scoring settings
     parser.add_argument("--source", type=str, choices=["10kq", "mdna", "call transcripts"], default="mdna",
@@ -99,6 +101,9 @@ def run_single_backtest(BacktestSetting, delay_interval):
 
 
 if __name__ == "__main__":
+
+    #Run this first: zipline ingest -b xtech_custom_eodhd_bundle
+    
     # Parse command-line arguments
     args = parse_args()
 
@@ -109,5 +114,5 @@ if __name__ == "__main__":
     delay_interval = 10
 
     # Run backtests in parallel, introducing a delay for each backtest
-    Parallel(n_jobs=-1)(delayed(run_single_backtest)(
+    Parallel(n_jobs=1)(delayed(run_single_backtest)(
         params, delay_interval * i) for i, params in enumerate(param_list))

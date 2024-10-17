@@ -6,7 +6,8 @@
 ### Required Installations
 To get started, you need to install two additional packages: zipline-reloaded and pyfolio-reloaded.
 
-1.	Clone pyfolio-reloaded for analyzing and plotting backtest results. You can find it [here](https://github.com/YuweiUltra/pyfolio-reloaded). This version includes functionality to output plots in an HTML file.
+1.	Clone pyfolio-reloaded for analyzing and plotting backtest results. You can find it [here](https://github.com/YuweiUltra/pyfolio-reloaded). 
+This version includes functionality to output plots in an HTML file.
 2.	Clone zipline-reloaded for backtesting trading strategies. You can find it [here](https://github.com/YuweiUltra/zipline-reloaded).
 3.	Clone this AlphaFactor-Backtester repository.
 
@@ -26,7 +27,9 @@ zipline ingest
 ### Creating a Custom Bundle
 Zipline uses bundle data to speed up backtests. Therefore, we need to create and ingest our custom bundle data.
 
-In this project, I used Quandl EOD data downloaded from Nasdaq Data Link. First, I ran a quandl_preprocessing script to store the data in a more readable quandl.h5 file with a unique sid for each ticker. (! This step is time consuming and not necessary if you use data from other source.)
+In this project, I used Quandl EOD data downloaded from Nasdaq Data Link. First, 
+I ran a quandl_preprocessing script to store the data in a more readable quandl.h5 file with a unique sid for each ticker. 
+(! This step is time consuming and not necessary if you use data from other source.)
 
 Next, create quandl_custom_bundle.py (the name can vary) and extension.py in the .zipline/ directory.
 
@@ -53,7 +56,8 @@ After successfully ingesting the data, the directory structure will look like th
 ```
 
 ### Starting the Backtest 
-You can start the backtest by running main.py with terminal arguments for parsing parameters, or you can directly run one of the following scripts:
+You can start the backtest by running main.py with terminal arguments for parsing parameters, 
+or you can directly run one of the following scripts:
 
 	•	backtest_DollarNeutral.py
 	•	backtest_Parallelize.py
@@ -66,3 +70,111 @@ You can start the backtest by running main.py with terminal arguments for parsin
 We are truly grateful to Jason from Deception & Truth Analysis and Morgan from Exponential Tech for providing us with these fantastic datasets and the opportunity to learn so much during this project. We’re excited about the insights we’ve gained and look forward to seeing how these signals can be applied in real-world trading scenarios.
 
 Finally, enjoy the research and have fun! Good luck and happy trading! 😄
+
+
+
+
+######################################################
+
+
+Notes on how to create environment
+
+https://www.perplexity.ai/search/how-can-i-install-ta-lab-on-py-7Bjm7KhSQYm25GlzNo9okA#0
+
+To install TA-Lib for Python 3.12 on Ubuntu Linux 20, you'll need to follow a two-step process: first, install the TA-Lib C library, and then install the Python wrapper. Here's a detailed guide:
+
+## Installing TA-Lib C Library
+
+First, you need to install the TA-Lib C library:
+
+1. Open a terminal window.
+
+2. Download the TA-Lib source code:
+
+```
+wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
+```
+
+3. Extract the downloaded file:
+
+```
+tar -xzf ta-lib-0.4.0-src.tar.gz
+```
+
+4. Navigate to the extracted directory:
+
+```
+cd ta-lib/
+```
+
+5. Configure, build, and install the library:
+
+```
+./configure --prefix=/usr
+make
+sudo make install
+```
+
+**Note:** If the build fails with `make -jX`, simply rerun `make` followed by `sudo make install`[1][3].
+
+## Installing TA-Lib Python Wrapper
+
+After installing the C library, you can proceed to install the Python wrapper:
+
+1. Ensure you have pip installed for Python 3.12. If not, install it:
+
+```
+sudo apt-get update
+sudo apt-get install python3-pip
+```
+
+2. Install the TA-Lib Python wrapper:
+
+```
+pip3 install TA-Lib
+```
+
+If you encounter any issues, you might need to specify the include and library paths:
+
+```
+export TA_INCLUDE_PATH=/usr/include
+export TA_LIBRARY_PATH=/usr/lib
+pip3 install TA-Lib
+```
+
+## Alternative Installation Method
+
+If you're using Anaconda or Miniconda, you can try an alternative method:
+
+1. Open Anaconda prompt or terminal.
+
+2. Run the following command:
+
+```
+conda install -c conda-forge ta-lib
+```
+
+This method often works across different platforms and is generally easier[2].
+
+## Verifying the Installation
+
+After installation, you can verify if TA-Lib is correctly installed by running Python and importing the library:
+
+```python
+import talib
+print(talib.__version__)
+```
+
+If this runs without errors and prints the version number, TA-Lib has been successfully installed.
+
+Remember to use `python3` or `python3.12` commands instead of `python` if your system has multiple Python versions installed, to ensure you're using Python 3.12.
+
+Citations:
+[1] https://pypi.org/project/TA-Lib/
+[2] https://blog.quantinsti.com/install-ta-lib-python/
+[3] https://ta-lib.github.io/ta-lib-python/install.html
+
+
+
+
+

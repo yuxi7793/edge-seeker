@@ -54,6 +54,7 @@ def ingest_xtech_eodhd_h5_bundle(environ,
                     'first_traded': df.index[0],
                     'auto_close_date': df.index[-1] + pd.Timedelta(days=1),
                     'exchange': 'NYSE',
+                    'country_code': 'US' 
                 })
                 
                 yield sid, df
@@ -132,6 +133,7 @@ def ingest_xtech_yf_h5_bundle(environ,
                     'first_traded': df.index[0],
                     'auto_close_date': df.index[-1] + pd.Timedelta(days=1),
                     'exchange': 'NYSE',  # Default exchange to NYSE
+                    'country_code': 'US' 
                 })
                 
                 yield sid, df

@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 
 sys.path.append(Path('~', '.zipline').expanduser().as_posix())
-
+print(f'sys.path:{sys.path}')
 from zipline.data.bundles import register
 from quandl_custom_bundle import quandl_to_bundle
 

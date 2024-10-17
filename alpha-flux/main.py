@@ -273,7 +273,7 @@ def run(Setting, scores_, assets_):
     BacktestSetting = Setting
     assets = assets_
     scores = scores_
-
+    print(f'BacktestSettings: {BacktestSetting}')
     # Create a directory to save the results
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     results_dir = os.path.join('./plots/temp', timestamp)
@@ -302,7 +302,7 @@ def run(Setting, scores_, assets_):
                             before_trading_start=before_trading_start,
                             capital_base=BacktestSetting.initial_cash,
                             data_frequency='daily',
-                            bundle='quandl_custom_bundle',
+                            bundle='xtech_custom_eodhd_bundle',
                             )
 
     # Extract performance metrics

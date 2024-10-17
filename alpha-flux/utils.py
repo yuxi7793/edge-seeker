@@ -8,13 +8,17 @@ from unifier import unifier
 from zipline.errors import SymbolNotFound
 
 # Set up environment variables for the unifier API
-unifier.user = "qrt"
-unifier.token = "wLeSyZXo/amHh1THUE1ZV/loYeK7qutQXOsV674DGiI="
-os.environ["UNIFIER_USER"] = unifier.user
-os.environ["UNIFIER_TOKEN"] = unifier.token
+# unifier.user = "qrt"
+# unifier.token = "wLeSyZXo/amHh1THUE1ZV/loYeK7qutQXOsV674DGiI="
+# os.environ["UNIFIER_USER"] = unifier.user
+# os.environ["UNIFIER_TOKEN"] = unifier.token
+unifier.user = 'demo'
+unifier.token ='qZy7KpE+L5Fg2MmjFqC/1xmweo7pgnnACCcK3JNEAec='
+os.environ['UNIFIER_USER'] = unifier.user
+os.environ['UNIFIER_TOKEN'] = unifier.token
 
 # Define base file path for truth & deception data
-base_truth_deception_filepath = "./D&T/concatenated_data_on_quater"
+base_truth_deception_filepath = "./alpha-flux/D&T/concatenated_data_on_quater"
 
 
 def get_truth_deception_data(start_year, end_year):
@@ -26,9 +30,10 @@ def get_truth_deception_data(start_year, end_year):
 
     for curr_year in tqdm(range(start_year, end_year + 1)):
         truth_deception_filepath = base_truth_deception_filepath + f"_{curr_year}.pkl"
-        if os.path.exists(truth_deception_filepath):
+        if False: #os.path.exists(truth_deception_filepath):
             # Load existing data if available
             with open(truth_deception_filepath, "rb") as f:
+                #curr_concat_dict = pd.read_pickle(f)
                 curr_concat_dict = pickle.load(f)
         else:
             # Fetch new data from the unifier API
@@ -38,6 +43,7 @@ def get_truth_deception_data(start_year, end_year):
             quarters = [f"{quarter}_{curr_year}" for quarter in Quarters]
 
             for q in quarters:
+                print(f'querying {q} for {start_year} -> {end_year} . . .')
                 # Load 10-K/Q data
                 df_10 = unifier.get_dataframe(name="deception_and_truth_10kq_quarterly", key=q)
                 df_10["source"] = "10kq"
@@ -61,6 +67,7 @@ def get_truth_deception_data(start_year, end_year):
                         [kq_dict[key], mdna_dict[key], t_dict[key]], axis=0
                     )
 
+            print(f'returned {curr_concat_dict}')
             # Save the concatenated data to a pickle file
             with open(truth_deception_filepath, "wb") as f:
                 pickle.dump(curr_concat_dict, f)
@@ -76,21 +83,21 @@ def filter_truth_deception_data(BacktestSetting):
     """
     Filter Truth & Deception data according to the specified BacktestSetting parameters.
     """
-    print(">>> Filtering truth and deception data ......")
+    print(f">>> Filtering truth and deception data ......with {BacktestSetting}")
 
     # Load the data for the specified fiscal years
     truth_deception_data = get_truth_deception_data(
         BacktestSetting.fiscal_start_year, BacktestSetting.fiscal_end_year
     )
-
+    print(f'truth_deception_data has {len(truth_deception_data)} rows')
     # Combine data from all quarters into a single DataFrame
     df = pd.concat(list(truth_deception_data.values()), axis=0)
     df = df[df.source == BacktestSetting.source]
-
+    print(f'after combine into single df has {len(df)} rows')
     # Extract Fiscal Year and Filing Year from the data
     df['FiscalYear'] = df['fiscalperiod'].apply(lambda x: int(x.split('_')[1]))
     df['FilingYear'] = pd.to_datetime(df['filingdate']).dt.year
-
+    print(f'after extract fiscal year into single df has {len(df)} rows')
     # Step 1: Exclude all records for any Fiscal Year prior to 2008
     if BacktestSetting.source == 'call transcripts':
         df['scorepublishedyear'] = df['date'].apply(lambda x: int(x.split('-')[0]))
@@ -98,16 +105,17 @@ def filter_truth_deception_data(BacktestSetting):
         df['scorepublishedyear'] = df['scorepublisheddate'].apply(lambda x: int(x.split('-')[0]))
     df = df[df['scorepublishedyear'] >= 2008]
     df = df[df['FiscalYear'] >= 2007]
-
+    print(f'after filtering old FY and published years into single df has {len(df)} rows')
     # Step 2: Drop earnings filing revisions
     df = df[abs(df['FilingYear'] - df['FiscalYear']) <= 1]
-
-    # Step 3: Drop all filings after 2022
-    df = df[df[['FiscalYear', 'FilingYear']].min(axis=1) < 2023]
+    print(f'after drop earnings revisions df has {len(df)} rows')
+    # # Step 3: Drop all filings after 2022
+    # df = df[df[['FiscalYear', 'FilingYear']].min(axis=1) < 2023]
 
     # Filter by primary index for non-call transcripts sources
     if not BacktestSetting.source == 'call transcripts':
         truth_deception_df = df[(df.primaryindex == BacktestSetting.primaryindex)]
+        print(f'after filtering out transcripts df has {len(df)} rows')
     else:
         truth_deception_df = df
 
@@ -117,7 +125,7 @@ def filter_truth_deception_data(BacktestSetting):
         index="date", columns="ticker", values=[BacktestSetting.score], aggfunc="mean"
     )
     truth_deception_df.columns = truth_deception_df.columns.droplevel(0)
-
+    print(f'end filter_truch_deception_data: {truth_deception_data}')
     return truth_deception_df
 
 
@@ -138,7 +146,7 @@ def load_score(bundle, BacktestSetting):
 
     for ticker in tickers:
         try:
-            asset = bundle.asset_finder.lookup_symbol(ticker, as_of_date=as_of_date)
+            asset = bundle.asset_finder.lookup_symbol(ticker, as_of_date=as_of_date, fuzzy=True, country_code='US')
             found_assets.append(asset)
             found_tickers.append(ticker)
         except SymbolNotFound:
