@@ -20,7 +20,7 @@ dist/
 *.pkl
 *.gz
 *.pickle
-
+*.h5
 
 # Compiled Java class files
 *.class

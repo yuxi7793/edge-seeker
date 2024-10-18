@@ -302,7 +302,7 @@ def run(Setting, scores_, assets_):
                             before_trading_start=before_trading_start,
                             capital_base=BacktestSetting.initial_cash,
                             data_frequency='daily',
-                            bundle='xtech_custom_eodhd_bundle',
+                            bundle='xtech_sp500_csvdata_bundle',
                             )
 
     # Extract performance metrics

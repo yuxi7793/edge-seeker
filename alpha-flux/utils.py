@@ -146,7 +146,7 @@ def load_score(bundle, BacktestSetting):
 
     for ticker in tickers:
         try:
-            asset = bundle.asset_finder.lookup_symbol(ticker, as_of_date=as_of_date, fuzzy=True, country_code='US')
+            asset = bundle.asset_finder.lookup_symbol(ticker, as_of_date=as_of_date, fuzzy=False,country_code=None)                      
             found_assets.append(asset)
             found_tickers.append(ticker)
         except SymbolNotFound:
