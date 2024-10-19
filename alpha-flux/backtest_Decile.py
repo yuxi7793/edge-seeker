@@ -91,7 +91,9 @@ def run_single_backtest(BacktestSetting, delay_interval):
 
     # Load necessary extensions and data bundle
     load_extensions(default=True, extensions=[], strict=True, environ=None)
-    bundle_data = bundles.load('xtech_custom_eodhd_bundle')
+    #bundle_data = bundles.load('xtech_custom_eodhd_bundle')
+    #bundle_data = bundles.load('xtech_sp500_csvdata_bundle')
+    bundle_data = bundles.load('quandl_custom_bundle')
 
     # Load scores and assets based on the backtest settings
     scores, assets = load_score(bundle_data, BacktestSetting)

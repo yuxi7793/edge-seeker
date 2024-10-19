@@ -22,7 +22,7 @@ register('quandl_custom_bundle',
          quandl_to_bundle(),
          calendar_name='NYSE',
          )
-exit()
+print(f'registered quandl_custom_bundle')
 ################################################
 
 

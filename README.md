@@ -32,6 +32,10 @@ Go to the branches page on the bitbucket website
 Select all branches
 Hover over the modal for your branch and it will say how many commits ahead and behind you are.  You must be 0 behind main before you can push 
 
+
+
+
+
 # AlphaFactor-Backtester
 ### **Summer 2024 Project at UChicago in collaboration with Exponential Tech and Deception &amp; Truth Analysis. This tool backtests fundamental factors using the Zipline-Reloaded framework, enabling robust analysis and evaluation of investment strategies.**
 
@@ -47,6 +51,7 @@ This version includes functionality to output plots in an HTML file.
 
 ### project Structure
 ```
+* Put the base of the project wherever you want and simply set this env variable: ZIPLINE_ROOT=/home/morgan/repos/edge-seeker/.zipline
 .
 ├── .zipline/                  # Configuration and data for Zipline
 ├── AlphaFactor-Backtester/    # Main project directory
