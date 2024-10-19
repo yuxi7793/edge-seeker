@@ -10,9 +10,16 @@ dist/
 
 #data directories
 */data/*
-
+*/.zipline/data/*
+*/.zipline/custom_data/*.h5
+*.flake8
+*/pyfolio-reloaded-main-backup/*
+*/zipline-reloaded-main-backup/*
 #ipy checkpoints
 .ipy*/*
+
+#vs code files
+*.vscode
 
 #Large Date files
 *.parquet
