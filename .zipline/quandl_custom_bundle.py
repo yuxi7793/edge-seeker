@@ -3,10 +3,18 @@ from pathlib import Path
 import warnings
 import numpy as np
 from tqdm import tqdm
+print(f'starting quandl_custom_bundle.py')
+#warnings.filterwarnings('ignore')
 
-warnings.filterwarnings('ignore')
+# Adding a stream handler to ensure logs go to the console
+import logging
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+logging.getLogger().addHandler(console_handler)
 
-zipline_root = '~/.zipline'
+zipline_root = '~/repos/edge-seeker/.zipline'
 custom_data_path = Path(zipline_root, 'custom_data')
 
 hist_data_name = "QUOTEMEDIA_PRICES_247f636d651d8ef83d8ca1e756cf5ee4.csv"
@@ -15,19 +23,21 @@ idx = pd.IndexSlice
 
 
 def load_equities():
-    return pd.read_hdf(custom_data_path / 'quandl.h5', 'equities')
+    tickers = pd.read_hdf(custom_data_path / 'quotemedia_eod_data.h5', 'tickers')
+    logging.debug(f'tickers found {tickers}')
+    return tickers
 
 
 def ticker_generator():
     """
     Lazily return (sid, ticker) tuple
-    """
+    """    
     return (v for v in load_equities().values)
 
 
 def data_generator():
     for sid, symbol, exchange_, asset_name in ticker_generator():
-        df = pd.read_hdf(custom_data_path / 'quandl.h5', 'prices/{}'.format(sid))
+        df = pd.read_hdf(custom_data_path / 'quotemedia_eod_data.h5', 'prices/{}'.format(sid))
         df.columns = ['open', 'high', 'low', 'close', 'volume']
         start_date = df.index[0]
         end_date = df.index[-1]
