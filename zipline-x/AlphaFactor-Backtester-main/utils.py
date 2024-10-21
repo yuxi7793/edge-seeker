@@ -14,8 +14,7 @@ os.environ["UNIFIER_USER"] = unifier.user
 os.environ["UNIFIER_TOKEN"] = unifier.token
 
 # Define base file path for truth & deception data
-#base_truth_deception_filepath = os.path.expanduser("~/repos/edge-seeker/zipline-x/AlphaFactor-Backtestor-main/D&T/concatenated_data_on_quarter")
-base_truth_deception_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-x/AlphaFactor-Backtestor-main/D&T/')
+base_truth_deception_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/D&T/')
 
 # Ensure the directory for the file exists before proceeding.
 os.makedirs(os.path.dirname(base_truth_deception_filepath), exist_ok=True)

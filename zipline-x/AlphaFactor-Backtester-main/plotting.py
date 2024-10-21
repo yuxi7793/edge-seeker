@@ -109,7 +109,7 @@ def main():
     """
     Main function to process all backtest results in the specified base directory.
     """
-    base_dir = "./plots/temp"
+    base_dir =os.path.expanduser("~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/results/data")
 
     # Loop through all directories in the base directory
     for dir_name in os.listdir(base_dir):

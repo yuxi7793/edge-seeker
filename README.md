@@ -32,10 +32,6 @@ Go to the branches page on the bitbucket website
 Select all branches
 Hover over the modal for your branch and it will say how many commits ahead and behind you are.  You must be 0 behind main before you can push 
 
-
-
-
-
 # AlphaFactor-Backtester
 ### **Summer 2024 Project at UChicago in collaboration with Exponential Tech and Deception &amp; Truth Analysis. This tool backtests fundamental factors using the Zipline-Reloaded framework, enabling robust analysis and evaluation of investment strategies.**
 
@@ -111,119 +107,6 @@ We are truly grateful to Jason from Deception & Truth Analysis and Morgan from E
 Finally, enjoy the research and have fun! Good luck and happy trading! 😄
 
 
-
-
 ######################################################
 
 
-Notes on how to create environment
-
-https://www.perplexity.ai/search/how-can-i-install-ta-lab-on-py-7Bjm7KhSQYm25GlzNo9okA#0
-
-To install TA-Lib for Python 3.12 on Ubuntu Linux 20, you'll need to follow a two-step process: first, install the TA-Lib C library, and then install the Python wrapper. Here's a detailed guide:
-
-## Installing TA-Lib C Library
-
-First, you need to install the TA-Lib C library:
-
-1. Open a terminal window.
-
-2. Download the TA-Lib source code:
-
-```
-wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-```
-
-3. Extract the downloaded file:
-
-```
-tar -xzf ta-lib-0.4.0-src.tar.gz
-```
-
-4. Navigate to the extracted directory:
-
-```
-cd ta-lib/
-```
-
-5. Configure, build, and install the library:
-
-```
-./configure --prefix=/usr
-make
-sudo make install
-```
-
-**Note:** If the build fails with `make -jX`, simply rerun `make` followed by `sudo make install`[1][3].
-
-## Installing TA-Lib Python Wrapper
-
-After installing the C library, you can proceed to install the Python wrapper:
-
-1. Ensure you have pip installed for Python 3.12. If not, install it:
-
-```
-sudo apt-get update
-sudo apt-get install python3-pip
-```
-
-2. Install the TA-Lib Python wrapper:
-
-```
-pip3 install TA-Lib
-```
-
-If you encounter any issues, you might need to specify the include and library paths:
-
-```
-export TA_INCLUDE_PATH=/usr/include
-export TA_LIBRARY_PATH=/usr/lib
-pip3 install TA-Lib
-```
-
-## Alternative Installation Method
-
-If you're using Anaconda or Miniconda, you can try an alternative method:
-
-1. Open Anaconda prompt or terminal.
-
-2. Run the following command:
-
-```
-conda install -c conda-forge ta-lib
-```
-
-This method often works across different platforms and is generally easier[2].
-
-## Verifying the Installation
-
-After installation, you can verify if TA-Lib is correctly installed by running Python and importing the library:
-
-```python
-import talib
-print(talib.__version__)
-```
-
-If this runs without errors and prints the version number, TA-Lib has been successfully installed.
-
-Remember to use `python3` or `python3.12` commands instead of `python` if your system has multiple Python versions installed, to ensure you're using Python 3.12.
-
-Citations:
-[1] https://pypi.org/project/TA-Lib/
-[2] https://blog.quantinsti.com/install-ta-lib-python/
-[3] https://ta-lib.github.io/ta-lib-python/install.html
-
-
-
-
-
-
-
-
-XTech credentials:
-
-API Key: tw2sxkKZo_y1UvMcnSux
-
-https://data.nasdaq.com/databases/EOD
-
-https://quotemedia.com/

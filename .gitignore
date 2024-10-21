@@ -28,6 +28,8 @@ dist/
 *.gz
 *.pickle
 *.h5
+*.json
+*.html
 
 # Compiled Java class files
 *.class
