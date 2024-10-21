@@ -15,7 +15,7 @@ from qm_custom_bundle import qm_to_bundle
 
 # First Try
 register('quandl_custom_bundle',
-         quandl_to_bundle(),
+         qm_to_bundle(),
          calendar_name='NYSE',
          )
 print(f'registered quandl_custom_bundle')
