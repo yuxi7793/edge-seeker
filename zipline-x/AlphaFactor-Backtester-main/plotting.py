@@ -101,7 +101,7 @@ def process_backtest_results(results_dir):
     results = pd.read_hdf(results_file, 'results')
 
     # Generate and save the plots and tear sheet
-    LIVE_DATE = '2022-12-10'
+    LIVE_DATE = '2024-10-21'
     plotting(results, results_dir, benchmark, LIVE_DATE)
 
 

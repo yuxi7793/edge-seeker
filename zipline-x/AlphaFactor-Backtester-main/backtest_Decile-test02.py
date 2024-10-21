@@ -22,7 +22,7 @@ def parse_args():
 
     # Basic settings
     parser.add_argument("--start-date", type=str, default="2008-01-10", help="Backtest start date (YYYY-MM-DD)")
-    parser.add_argument("--end-date", type=str, default="2024-10-14", help="Backtest end date (YYYY-MM-DD)")
+    parser.add_argument("--end-date", type=str, default="2024-10-20", help="Backtest end date (YYYY-MM-DD)")
     parser.add_argument("--fiscal-start-year", type=int, default=2007, help="Fiscal start year")
     parser.add_argument("--fiscal-end-year", type=int, default=2024, help="Fiscal end year")
 

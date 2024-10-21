@@ -18,7 +18,7 @@ class ScoreFactor(CustomFactor):
             # Localize the index to UTC
             ScoreFactor.scores.index = ScoreFactor.scores.index.tz_localize('UTC')
         elif ScoreFactor.scores.index.tz != pytz.UTC:
-            print("The index is timezone-aware but is {ScoreFactor.scores.index.tz} and not in 'UTC'. Converting to 'UTC'.")
+            print(f"The index is timezone-aware but is {ScoreFactor.scores.index.tz} and not in 'UTC'. Converting to 'UTC'.")
             # Convert the index to UTC
             ScoreFactor.scores.index = ScoreFactor.scores.index.tz_convert('UTC')
         else:
