@@ -28,6 +28,7 @@ def get_truth_deception_data(start_year, end_year):
     concat_dict = dict()
 
     for curr_year in tqdm(range(start_year, end_year + 1)):
+        print(f'Fetching D&T data for {curr_year}')
         truth_deception_filepath = base_truth_deception_filepath + f"concatenated_data_on_quarter_{curr_year}.pkl"
         if os.path.exists(truth_deception_filepath):
             # Load existing data if available

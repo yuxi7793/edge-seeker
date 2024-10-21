@@ -70,6 +70,7 @@ def initialize(context):
     all_sessions_df = pd.DataFrame(index=all_sessions)
     scores_ = pd.merge(all_sessions_df, scores, left_index=True, right_index=True, how='left')
     ScoreFactor.scores = scores_.reindex(all_sessions).ffill(axis=0, limit=BacktestSetting.lookback).tz_convert('UTC')
+    print("Timezone of ScoreFactor.scores index:", ScoreFactor.scores.index.tz)
 
     # Create and attach the pipeline with the score factor
     score_factor = ScoreFactor()
