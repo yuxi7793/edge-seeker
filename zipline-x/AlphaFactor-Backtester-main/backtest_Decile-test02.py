@@ -8,10 +8,10 @@ from utils import load_score
 from zipline.utils.run_algo import load_extensions
 
 '''
-10/21/2024  This is the first test which I ran in London to replicate prior results. 
+10/21/2024  This is the second test which I ran in London to replicate prior results. 
 
 * It keeps the short cutoff at 0.5 to prevent shorting.  
-* The next experiment will be to extend the results to be be updated through today YTD.
+* This will update the Deception & Truth data and price data YTD
 
 '''
 def parse_args():
@@ -21,9 +21,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run the backtest with specified settings and parameter ranges.")
 
     # Basic settings
-    #parser.add_argument("--start-date", type=str, default="2008-01-10", help="Backtest start date (YYYY-MM-DD)")
     parser.add_argument("--start-date", type=str, default="2008-01-10", help="Backtest start date (YYYY-MM-DD)")
-    parser.add_argument("--end-date", type=str, default="2022-12-31", help="Backtest end date (YYYY-MM-DD)")
+    parser.add_argument("--end-date", type=str, default="2024-11-20", help="Backtest end date (YYYY-MM-DD)")
     parser.add_argument("--fiscal-start-year", type=int, default=2007, help="Fiscal start year")
     parser.add_argument("--fiscal-end-year", type=int, default=2022, help="Fiscal end year")
 

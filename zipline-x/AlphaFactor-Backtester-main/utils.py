@@ -106,8 +106,8 @@ def filter_truth_deception_data(BacktestSetting):
     # Step 2: Drop earnings filing revisions
     df = df[abs(df['FilingYear'] - df['FiscalYear']) <= 1]
 
-    # Step 3: Drop all filings after 2022
-    df = df[df[['FiscalYear', 'FilingYear']].min(axis=1) < 2023]
+    # Step 3: Drop all filings after 2022  -- commenting this out (YuWei's rule)
+    #df = df[df[['FiscalYear', 'FilingYear']].min(axis=1) < 2023]
 
     # Filter by primary index for non-call transcripts sources
     if not BacktestSetting.source == 'call transcripts':
