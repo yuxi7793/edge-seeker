@@ -8,6 +8,9 @@ class ScoreFactor(CustomFactor):
     scores = None
 
     def compute(self, today, assets, out, *inputs):
+        #print(f'today incoming {today}')
+        today = today.tz_localize('UTC')
+        #print(f'today changed to {today}')
         out[:] = ScoreFactor.scores.loc[today].reindex(assets, fill_value=np.nan).values
 
 class IsFilingDateFactor(CustomFactor):
@@ -18,4 +21,7 @@ class IsFilingDateFactor(CustomFactor):
 
     def compute(self, today, assets, out, *inputs):
         is_filing_date = ((ScoreFactor.scores != ScoreFactor.scores.shift(1)) & ScoreFactor.scores.notna())
+        #print(f'today incoming {today}')
+        today = today.tz_localize('UTC')
+        #print(f'today changed to {today}')
         out[:] = is_filing_date.loc[today].reindex(assets, fill_value=np.nan).values

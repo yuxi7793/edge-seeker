@@ -8,7 +8,8 @@ warnings.filterwarnings('ignore')
 
 zipline_root = '~/repos/edge-seeker/zipline-x/.zipline'
 custom_data_path = Path(zipline_root, 'custom_data')
-h5_path = custom_data_path / 'quotemedia_eod_data.h5'  # Define the HDF5 file path
+#h5_path = custom_data_path / 'quotemedia_eod_data.h5'  # Define the HDF5 file path
+h5_path = custom_data_path / 'quotemedia_eod_data_v1.h5'  # Define the HDF5 file path
 
 # Function to load equities metadata (tickers data)
 def load_equities():
@@ -16,20 +17,20 @@ def load_equities():
     Load the tickers data using pandas HDFStore for more explicit control.
     """
     with pd.HDFStore(h5_path, mode='r') as store:
-        if 'tickers' in store:
-            tickers_df = store['tickers']
+        if 'symbols' in store:
+            tickers_df = store['symbols']
             # Add an 'sid' column using the DataFrame index as the sid
             tickers_df = tickers_df.reset_index().rename(columns={"index": "sid"})
-            tickers_df.rename(columns={'ticker':'symbol','company_name':'asset_name'},inplace=True)
-            print("Loaded tickers columns:", tickers_df.columns)
+            tickers_df.rename(columns={'company_name':'asset_name'},inplace=True)
+            print("Loaded symbols columns:", tickers_df.columns)
             return tickers_df
         else:
-            raise KeyError("Dataset 'tickers' not found in the HDF5 file.")
+            raise KeyError("Dataset 'symbols' not found in the HDF5 file.")
 
 # Ticker generator to yield (sid, ticker)
 def ticker_generator():
     """
-    Lazily return (sid, ticker) tuple from the tickers DataFrame.
+    Lazily return (sid, symbol) tuple from the tickers DataFrame.
     """
     equities_df = load_equities()
     for row in equities_df.itertuples(index=False):
@@ -48,10 +49,10 @@ def data_generator():
         asset_name = row.asset_name
 
         # Filter the prices DataFrame by the 'ticker' (symbol) column
-        sid_data = prices_df[prices_df['ticker'] == symbol]
+        sid_data = prices_df[prices_df['symbol'] == symbol]
 
         # Drop the 'ticker' column since it's no longer needed
-        sid_data = sid_data.drop(columns=['ticker'])
+        sid_data = sid_data.drop(columns=['symbol'])
 
         # Ensure 'date' is set as the index
         sid_data.set_index('date', inplace=True)

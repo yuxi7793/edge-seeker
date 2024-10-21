@@ -14,7 +14,11 @@ os.environ["UNIFIER_USER"] = unifier.user
 os.environ["UNIFIER_TOKEN"] = unifier.token
 
 # Define base file path for truth & deception data
-base_truth_deception_filepath = "./D&T/concatenated_data_on_quarter"
+#base_truth_deception_filepath = os.path.expanduser("~/repos/edge-seeker/zipline-x/AlphaFactor-Backtestor-main/D&T/concatenated_data_on_quarter")
+base_truth_deception_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-x/AlphaFactor-Backtestor-main/D&T/')
+
+# Ensure the directory for the file exists before proceeding.
+os.makedirs(os.path.dirname(base_truth_deception_filepath), exist_ok=True)
 
 
 def get_truth_deception_data(start_year, end_year):
@@ -25,7 +29,7 @@ def get_truth_deception_data(start_year, end_year):
     concat_dict = dict()
 
     for curr_year in tqdm(range(start_year, end_year + 1)):
-        truth_deception_filepath = base_truth_deception_filepath + f"_{curr_year}.pkl"
+        truth_deception_filepath = base_truth_deception_filepath + f"concatenated_data_on_quarter_{curr_year}.pkl"
         if os.path.exists(truth_deception_filepath):
             # Load existing data if available
             with open(truth_deception_filepath, "rb") as f:
@@ -38,6 +42,7 @@ def get_truth_deception_data(start_year, end_year):
             quarters = [f"{quarter}_{curr_year}" for quarter in Quarters]
 
             for q in quarters:
+                print(f'querying unifier for {q} .  . .')
                 # Load 10-K/Q data
                 df_10 = unifier.get_dataframe(name="deception_and_truth_10kq_quarterly", key=q)
                 df_10["source"] = "10kq"
