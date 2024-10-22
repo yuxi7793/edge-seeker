@@ -8,8 +8,8 @@ from unifier import unifier
 from zipline.errors import SymbolNotFound
 
 # Set up environment variables for the unifier API
-unifier.user = "qrt"
-unifier.token = "wLeSyZXo/amHh1THUE1ZV/loYeK7qutQXOsV674DGiI="
+unifier.user = "demo"
+unifier.token = "qZy7KpE+L5Fg2MmjFqC/1xmweo7pgnnACCcK3JNEAec="
 os.environ["UNIFIER_USER"] = unifier.user
 os.environ["UNIFIER_TOKEN"] = unifier.token
 
@@ -20,7 +20,7 @@ base_truth_deception_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-
 os.makedirs(os.path.dirname(base_truth_deception_filepath), exist_ok=True)
 
 
-def get_truth_deception_data(start_year, end_year):
+def get_truth_deception_data(start_year, end_year, source):
     """
     Load Truth & Deception data for the specified year range using the unifier API.
     The data is stored in ./D&T/ as pickle files.
@@ -29,7 +29,12 @@ def get_truth_deception_data(start_year, end_year):
 
     for curr_year in tqdm(range(start_year, end_year + 1)):
         print(f'Fetching D&T data for {curr_year}')
-        truth_deception_filepath = base_truth_deception_filepath + f"concatenated_data_on_quarter_{curr_year}.pkl"
+        if source not in ["10kq", "mdna", "call transcripts"]:
+            Exception("Unsupported document type in Deception & Truth data")
+            exit(-1)
+               
+        truth_deception_filepath = base_truth_deception_filepath + f"{source}/concatenated_data_on_quarter_{curr_year}.pkl"
+                  
         if os.path.exists(truth_deception_filepath):
             # Load existing data if available
             with open(truth_deception_filepath, "rb") as f:
@@ -85,7 +90,7 @@ def filter_truth_deception_data(BacktestSetting):
 
     # Load the data for the specified fiscal years
     truth_deception_data = get_truth_deception_data(
-        BacktestSetting.fiscal_start_year, BacktestSetting.fiscal_end_year
+        BacktestSetting.fiscal_start_year, BacktestSetting.fiscal_end_year, BacktestSetting.source
     )
 
     # Combine data from all quarters into a single DataFrame
