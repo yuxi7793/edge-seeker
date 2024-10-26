@@ -13,7 +13,7 @@ from utils import (
 warnings.filterwarnings("ignore")
 
 
-def plotting(results, results_dir, benchmark, LIVE_DATE='2022-12-10'):
+def plotting(results, results_dir, benchmark, LIVE_DATE='2023-01-01'):
     """
     Plot various financial metrics and save results as a tear sheet.
 
@@ -52,7 +52,7 @@ def plotting(results, results_dir, benchmark, LIVE_DATE='2022-12-10'):
     ax.grid(True)
 
     fig.tight_layout()
-    plt.savefig(os.path.join("./plots/temp", 'ending_cash.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(results_dir, 'ending_cash.png'), bbox_inches='tight')
 
     # Generate and save a full tear sheet using pyfolio
     pf.create_full_tear_sheet(returns,
@@ -101,7 +101,7 @@ def process_backtest_results(results_dir):
     results = pd.read_hdf(results_file, 'results')
 
     # Generate and save the plots and tear sheet
-    LIVE_DATE = '2024-10-21'
+    LIVE_DATE = '2023-01-01'
     plotting(results, results_dir, benchmark, LIVE_DATE)
 
 
@@ -109,7 +109,7 @@ def main():
     """
     Main function to process all backtest results in the specified base directory.
     """
-    base_dir =os.path.expanduser("~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/results/data")
+    base_dir =os.path.expanduser("~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/plots/temp")
 
     # Loop through all directories in the base directory
     for dir_name in os.listdir(base_dir):

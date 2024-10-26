@@ -277,7 +277,7 @@ def run(Setting, scores_, assets_):
 
     # Create a directory to save the results
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    results_dir = os.path.expanduser(os.path.join('~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/results/data', timestamp))
+    results_dir = os.path.expanduser(os.path.join('~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/plots/temp', timestamp))
     os.makedirs(results_dir, exist_ok=True)
     save_backtest_setting(BacktestSetting, results_dir)
 

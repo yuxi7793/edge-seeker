@@ -1,4 +1,4 @@
-import os
+import os, sys
 import pickle
 import json
 import pandas as pd
@@ -48,15 +48,34 @@ def get_truth_deception_data(start_year, end_year, source):
 
             for q in quarters:
                 print(f'querying unifier for {q} .  . .')
-                # Load 10-K/Q data
                 df_10 = unifier.get_dataframe(name="deception_and_truth_10kq_quarterly", key=q)
                 df_10["source"] = "10kq"
                 kq_dict[q] = df_10
+
+                # Checking for NoneType values in 'scorepublisheddate' column
+                none_rows = df_10[df_10['scorepublisheddate'].isna()]
+
+                if not none_rows.empty:
+                    print("Rows with NoneType in 'scorepublisheddate':")
+                    pd.set_option('display.max_columns', None)
+                    print(none_rows)
+                    # Terminate the program to prevent further errors    
+                    sys.exit("Terminating due to NoneType values in 'scorepublisheddate'.")
 
                 # Load MD&A data
                 df_md = unifier.get_dataframe(name="deception_and_truth_mdna_quarterly", key=q)
                 df_md["source"] = "mdna"
                 mdna_dict[q] = df_md
+
+                # Checking for NoneType values in 'scorepublisheddate' column for MD&A data
+                none_md_rows = df_md[df_md['scorepublisheddate'].isna()]
+
+                if not none_md_rows.empty:
+                    print("Rows with NoneType in 'scorepublisheddate' for MD&A data:")
+                    pd.set_option('display.max_columns', None)
+                    print(none_md_rows)
+                    # Terminate the program to prevent further errors
+                    sys.exit("Terminating due to NoneType values in 'scorepublisheddate' for MD&A data.")
 
                 # Load call transcripts data
                 df_t = unifier.get_dataframe(name="deception_and_truth_call_transcripts_quarterly", key=q)
