@@ -1,12 +1,11 @@
 # AlphaFactor-Backtester
 ### **Summer 2024 Project at UChicago in collaboration with Exponential Tech and Deception &amp; Truth Analysis. This tool backtests fundamental factors using the Zipline-Reloaded framework, enabling robust analysis and evaluation of investment strategies.**
-
 ---
 
 ### Set you environment variables
 * in ~/.bashrc (~/.zshrc on macOS) set the location of the root folder of the project which will include three different cloned repos and a .zipline data directory.  It is technically an .SQLLite database.
 export ZIPLINE_ROOT=/home/morgan/repos/edge-seeker/zipline-x/.zipline
-
+export ZIPLINE_RESULTS_ROOT=/home/morgan/repos/edge-seeker/zipline-x/results
 * Add the QUANDL_API key to your ~/.bashrc (~/.zshrc on macOS) 
 export QUANDL_API_KEY=tw2sxkKZo_y1UvMcnSux
 
@@ -56,9 +55,16 @@ Your .zipline/ directory should look like this:
 ├── quandl_custom_bundle.py
 └── extension.py
 ```
-Once everything is set up correctly, run the following command to ingest the custom bundle:
+Once everything is set up correctly, run the following commands to ingest the custom bundle:
 ```
-zipline ingest -b quandl_custom_bundle
+python ~/repos/edge-seeker/zipline-x/.zipline/extension.py  #This creates a folder in which to register a new data bundle
+
+python quote_media_downloader.py  #This downloads the most recent data from quote media and store in /custom_data/quotemedia_latest.h5 file.  Note: it is sometimes flaky and you need to run it multiple times to return the price data.
+
+zipline ingest -b quandl_custom_bundle  #this will run the quandl_custom_bundle.py code to transform quotemedia_latest.h5 file into a bundle that can be read by zipline
+
+zipline bundles #will show the bundles including the one you just ingressed
+
 ```
 After successfully ingesting the data, the directory structure will look like this:
 ```
@@ -76,7 +82,9 @@ You can start the backtest by running main.py with terminal arguments for parsin
 
 	•	backtest_DollarNeutral.py
 	•	backtest_Parallelize.py
-	•	backtest_Decile.py
+	•	backtest_Decile.py #This is the long-only S&P500 Strategy
+	•	backtest_Decile-test03.py #This is the working version with data up through October 2024 (start here)
+
 
 ---
 

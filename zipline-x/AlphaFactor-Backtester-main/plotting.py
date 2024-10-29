@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pyfolio as pf
 import warnings
+import argparse
 from utils import (
     get_russell1000_data,
     get_russell2000_data,
@@ -28,7 +29,7 @@ def plotting(results, results_dir, benchmark, LIVE_DATE='2023-01-01'):
     rewrite = True  # Flag to determine if existing plots should be overwritten
 
     # Define the filename for the aggregated full tear sheet
-    aggregated_filename = "full_tearsheet.html"
+    aggregated_filename = "xtech_tearsheet.html"
     aggregated_file_path = os.path.join(results_dir, aggregated_filename)
 
     # Check if the file already exists
@@ -65,7 +66,7 @@ def plotting(results, results_dir, benchmark, LIVE_DATE='2023-01-01'):
                               )
 
 
-def process_backtest_results(results_dir):
+def process_backtest_results(results_dir,live_date):
     """
     Process backtest results from a given directory.
 
@@ -102,22 +103,41 @@ def process_backtest_results(results_dir):
 
     # Generate and save the plots and tear sheet
     LIVE_DATE = '2023-01-01'
-    plotting(results, results_dir, benchmark, LIVE_DATE)
+    plotting(results, results_dir, benchmark, live_date)
 
-
-def main():
+def main(live_date='2010-01-01', result_name=None):
     """
-    Main function to process all backtest results in the specified base directory.
-    """
-    base_dir =os.path.expanduser("~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/plots/temp")
+    Main function to process backtest results based on the provided parameters.
 
-    # Loop through all directories in the base directory
-    for dir_name in os.listdir(base_dir):
-        results_dir = os.path.join(base_dir, dir_name)
-        if os.path.isdir(results_dir):  # Process only directories
+    Parameters:
+    live_date (str): The date used to filter live results. Default is '2010-01-01'.
+    result_name (str): The specific result name to process. If None, processes all in the results directory.
+    """
+    root_dir = os.path.expanduser("~/repos/edge-seeker/zipline-x/results")
+    base_dir = f'{root_dir}/plots/temp'
+    os.makedirs(os.path.dirname(f'{base_dir}'), exist_ok=True)
+    os.chdir(root_dir)
+    # Loop through all directories in the base directory or process a specific result name
+    if result_name:
+        results_dir = os.path.join(base_dir, result_name)
+        if os.path.isdir(results_dir):
             print(f"Processing backtest results in {results_dir}...")
-            process_backtest_results(results_dir)
-
+            process_backtest_results(results_dir,live_date)
+        else:
+            print(f"Error: Specified result name '{result_name}' does not exist in {base_dir}.")
+    else:
+        # Loop through all directories if no specific result name is provided
+        for dir_name in os.listdir(base_dir):
+            results_dir = os.path.join(base_dir, dir_name)
+            if os.path.isdir(results_dir):  # Process only directories
+                print(f"Processing backtest results in {results_dir}...")
+                process_backtest_results(results_dir,live_date)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Process backtest results based on specified parameters.')
+    parser.add_argument('--live_date', type=str, default='2010-01-01', help='The date used to filter live results.')
+    parser.add_argument('--result_name', type=str, default='20241022_011816', help='Specific result name to process. If not provided, processes all results.')
+    
+    args = parser.parse_args()
+    
+    main(live_date=args.live_date, result_name=args.result_name)

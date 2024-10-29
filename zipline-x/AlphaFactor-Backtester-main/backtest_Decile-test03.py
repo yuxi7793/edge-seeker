@@ -23,12 +23,12 @@ def parse_args():
 
     # Basic settings
     parser.add_argument("--start-date", type=str, default="2008-01-10", help="Backtest start date (YYYY-MM-DD)")
-    parser.add_argument("--end-date", type=str, default="2024-10-20", help="Backtest end date (YYYY-MM-DD)")
+    parser.add_argument("--end-date", type=str, default="2024-10-25", help="Backtest end date (YYYY-MM-DD)")
     parser.add_argument("--fiscal-start-year", type=int, default=2007, help="Fiscal start year")
     parser.add_argument("--fiscal-end-year", type=int, default=2024, help="Fiscal end year")
 
     # Data source and scoring settings
-    parser.add_argument("--source", type=str, choices=["10kq", "mdna", "call transcripts"], default="10kq",
+    parser.add_argument("--source", type=str, choices=["10kq", "mdna", "call transcripts"], default="mdna",
                         help="Source of the data")
     parser.add_argument("--score", type=str, default="datascore", help="Score used in the backtest")
     parser.add_argument("--primaryindex", type=str, choices=["S&P 500", "Russell 2000", "Russell 1000"],
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     # Define delay interval between parallel backtests
     delay_interval = 10
 
-    cpu_count = 1
+    cpu_count = 15
     # Run backtests in parallel, introducing a delay for each backtest
     Parallel(n_jobs=cpu_count)(delayed(run_single_backtest)(
         params, delay_interval * i) for i, params in enumerate(param_list))

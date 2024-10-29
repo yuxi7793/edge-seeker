@@ -14,11 +14,14 @@ os.environ["UNIFIER_USER"] = unifier.user
 os.environ["UNIFIER_TOKEN"] = unifier.token
 
 # Define base file path for truth & deception data
-base_truth_deception_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-x/AlphaFactor-Backtester-main/D&T/')
+base_truth_deception_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-x/D&T')
+base_benchmark_filepath = os.path.expanduser('~/repos/edge-seeker/zipline-x/BenchmarkData')
 
 # Ensure the directory for the file exists before proceeding.
 os.makedirs(os.path.dirname(base_truth_deception_filepath), exist_ok=True)
-
+os.makedirs(os.path.dirname(f'{base_truth_deception_filepath}/10kq'), exist_ok=True)
+os.makedirs(os.path.dirname(f'{base_truth_deception_filepath}/mdna'), exist_ok=True)
+os.makedirs(os.path.dirname(f'{base_truth_deception_filepath}/call_transcripts'), exist_ok=True)
 
 def get_truth_deception_data(start_year, end_year, source):
     """
@@ -33,7 +36,7 @@ def get_truth_deception_data(start_year, end_year, source):
             Exception("Unsupported document type in Deception & Truth data")
             exit(-1)
                
-        truth_deception_filepath = base_truth_deception_filepath + f"{source}/concatenated_data_on_quarter_{curr_year}.pkl"
+        truth_deception_filepath = base_truth_deception_filepath + f"/{source}/concatenated_data_on_quarter_{curr_year}.pkl"
                   
         if os.path.exists(truth_deception_filepath):
             # Load existing data if available
@@ -201,17 +204,26 @@ def get_russell2000_data(start_date, end_date):
     Retrieve Russell 2000 ETF data (IWM) and calculate daily returns.
     Data is stored in ./BenchmarkData/russell2000.csv.
     """
-    file_path = './BenchmarkData/russell2000.csv'
+    file_path = f'{base_benchmark_filepath}/russell2000.csv'
 
     if not os.path.exists(file_path):
         spy = yf.download('IWM', start=start_date, end=end_date, auto_adjust=True)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Create the directory if it doesn't exist
+        # Step 2: Clean up the DataFrame to ensure only one row header
+        spy.reset_index(inplace=True)  # Make 'Date' a column instead of the index 
+        spy.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']    
         spy.to_csv(file_path)
     else:
         spy = pd.read_csv(file_path, index_col='Date', parse_dates=True)
 
     spy['Return'] = spy['Close'].pct_change()
-    spy = spy.tz_localize('UTC')
+    # If the data is already timezone-aware, convert it
+    if spy.index.tz is not None:
+        spy = spy.tz_convert('UTC')
+    else:
+        # If it is timezone-naive, localize it first
+        spy = spy.tz_localize('UTC')
+
     return spy['Return']
 
 
@@ -220,17 +232,26 @@ def get_russell1000_data(start_date, end_date):
     Retrieve Russell 1000 ETF data (IWB) and calculate daily returns.
     Data is stored in ./BenchmarkData/russell1000.csv.
     """
-    file_path = './BenchmarkData/russell1000.csv'
+    file_path = f'{base_benchmark_filepath}/russell1000.csv'
 
     if not os.path.exists(file_path):
         spy = yf.download('IWB', start=start_date, end=end_date, auto_adjust=True)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Create the directory if it doesn't exist
+        # Step 2: Clean up the DataFrame to ensure only one row header
+        spy.reset_index(inplace=True)  # Make 'Date' a column instead of the index 
+        spy.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']    
         spy.to_csv(file_path)
     else:
         spy = pd.read_csv(file_path, index_col='Date', parse_dates=True)
 
     spy['Return'] = spy['Close'].pct_change()
-    spy = spy.tz_localize('UTC')
+    # If the data is already timezone-aware, convert it
+    if spy.index.tz is not None:
+        spy = spy.tz_convert('UTC')
+    else:
+        # If it is timezone-naive, localize it first
+        spy = spy.tz_localize('UTC')
+
     return spy['Return']
 
 
@@ -239,15 +260,24 @@ def get_sp500_etf_data(start_date, end_date):
     Retrieve S&P 500 ETF data (SPY) and calculate daily returns.
     Data is stored in ./BenchmarkData/sp500.csv.
     """
-    file_path = './BenchmarkData/sp500.csv'
+    file_path = f'{base_benchmark_filepath}/sp500.csv'
 
     if not os.path.exists(file_path):
         spy = yf.download('SPY', start=start_date, end=end_date, auto_adjust=True)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Create the directory if it doesn't exist
+        # Step 2: Clean up the DataFrame to ensure only one row header
+        spy.reset_index(inplace=True)  # Make 'Date' a column instead of the index 
+        spy.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']       
         spy.to_csv(file_path)
     else:
+        
         spy = pd.read_csv(file_path, index_col='Date', parse_dates=True)
+        spy['Return'] = spy['Close'].pct_change()
+        # If the data is already timezone-aware, convert it
+        if spy.index.tz is not None:
+            spy = spy.tz_convert('UTC')
+        else:
+            # If it is timezone-naive, localize it first
+            spy = spy.tz_localize('UTC')
 
-    spy['Return'] = spy['Close'].pct_change()
-    spy = spy.tz_localize('UTC')
-    return spy['Return']
+        return spy['Return']

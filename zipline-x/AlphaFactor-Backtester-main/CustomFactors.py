@@ -10,19 +10,20 @@ class ScoreFactor(CustomFactor):
 
     def compute(self, today, assets, out, *inputs):        
         today = today.tz_localize('UTC')
-        print(f'today changed to {today}')
+        #print(f'today changed to {today}')
         #out[:] = ScoreFactor.scores.loc[today].reindex(assets, fill_value=np.nan).values
         # Check if the ScoreFactor.scores index is timezone-aware and if it is in UTC
         if ScoreFactor.scores.index.tz is None:
-            print("The index is not timezone-aware. Localizing to 'UTC'.")
+            #print("The index is not timezone-aware. Localizing to 'UTC'.")
             # Localize the index to UTC
             ScoreFactor.scores.index = ScoreFactor.scores.index.tz_localize('UTC')
         elif ScoreFactor.scores.index.tz != pytz.UTC:
-            print(f"The index is timezone-aware but is {ScoreFactor.scores.index.tz} and not in 'UTC'. Converting to 'UTC'.")
+            #print(f"The index is timezone-aware but is {ScoreFactor.scores.index.tz} and not in 'UTC'. Converting to 'UTC'.")
             # Convert the index to UTC
             ScoreFactor.scores.index = ScoreFactor.scores.index.tz_convert('UTC')
-        else:
-            print("The index is already in 'UTC'.")
+        else:            
+            #print("The index is already in 'UTC'.")
+            pass
 
         # Example of safely accessing the scores
         try:
