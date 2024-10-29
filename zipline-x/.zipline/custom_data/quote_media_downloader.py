@@ -1,3 +1,15 @@
+'''
+This program is for downloading updated quote media data into an h5 file so that it can be processed by the quandl_custom_bundle.py 
+script and ETLed into a Zipline compatible bundle
+
+Note: For unknown reasons the quote_media API does not produce an artifact for the daily data request on the first few requests.  So it is necessary
+to repeatedly run this script if it is the first run of the day.
+
+Exponential Tech - 10/2024
+
+'''
+
+
 import pandas as pd
 import numpy as np
 import requests
@@ -20,7 +32,7 @@ BASE_URL = "https://data.nasdaq.com/api/v3/datatables/QUOTEMEDIA"
 # Define file paths
 zipline_root = '~/repos/edge-seeker/zipline-x/.zipline'
 custom_data_path = Path(zipline_root, 'custom_data')
-h5_path = custom_data_path / 'quotemedia_eod_data_v3.h5'
+h5_path = custom_data_path / 'quotemedia_eod_data_latest.h5'
 
 # Function to download data from API
 def get_data(endpoint, params):
