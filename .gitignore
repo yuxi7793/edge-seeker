@@ -7,8 +7,12 @@
 node_modules/
 dist/
 
+#Norgate Examples
+Norgate*/*
+archive/*
 
 #data directories
+*/archive/*
 */data/*
 */.zipline/data/*
 */.zipline/custom_data/*.h5
@@ -18,8 +22,10 @@ dist/
 #ipy checkpoints
 .ipy*/*
 
+
 #vs code files
 *.vscode
+*.code-workspace*
 
 #Large Date files
 *.parquet
@@ -31,6 +37,7 @@ dist/
 *.json
 *.html
 *.png
+*.zip
 
 # Compiled Java class files
 *.class

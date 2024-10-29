@@ -9,7 +9,7 @@ warnings.filterwarnings('ignore')
 zipline_root = '~/repos/edge-seeker/zipline-x/.zipline'
 custom_data_path = Path(zipline_root, 'custom_data')
 #h5_path = custom_data_path / 'quotemedia_eod_data.h5'  # Define the HDF5 file path
-h5_path = custom_data_path / 'quotemedia_eod_data_v1.h5'  # Define the HDF5 file path
+h5_path = custom_data_path / 'quotemedia_eod_data_latest.h5'  # Define the HDF5 file path
 
 # Function to load equities metadata (tickers data)
 def load_equities():
