@@ -4,3 +4,9 @@
 [submodule "zipline-reloaded"]
 	path = zipline-reloaded
 	url = https://github.com/stefan-jansen/zipline-reloaded.git
+[submodule "zipline-x/zipline-reloaded"]
+	path = zipline-x/zipline-reloaded
+	url = https://HighlyUnlikely22@bitbucket.org/exponential-tech/zipline-reloaded-x.git
+[submodule "zipline-x/pyfolio-reloaded"]
+	path = zipline-x/pyfolio-reloaded
+	url = https://HighlyUnlikely22@bitbucket.org/exponential-tech/pyfolio-reloaded-x.git

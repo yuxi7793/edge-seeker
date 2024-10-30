@@ -11,10 +11,20 @@ export QUANDL_API_KEY=tw2sxkKZo_y1UvMcnSux
 
 ### Required Installations
 To get started, you need to install two additional packages: zipline-reloaded and pyfolio-reloaded.
+
+New Multi-module git repo - This repo has pyfolio-reloaded and zipline-reloaded submodules
+git clone https://HighlyUnlikely22@bitbucket.org/exponential-tech/edge-seeker.git 
+cd edge-seeker
+git submodule init
+git submodule update
+
+
+Old Instructions -- TO BE REMOVED
 1. Create a folder called zipline_x
 2.	Clone pyfolio-reloaded for analyzing and plotting backtest results. You can find it [here](https://github.com/YuweiUltra/pyfolio-reloaded). This version includes functionality to output plots in an HTML file.
 3.	Clone zipline-reloaded for backtesting trading strategies. You can find it [here](https://github.com/YuweiUltra/zipline-reloaded).
 4.	Clone this AlphaFactor-Backtester repository.
+
 
 ### Create a conda environment and install repos
 Warning: Do not deviate from this sequence or you may have dependency clashes
