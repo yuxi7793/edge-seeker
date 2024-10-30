@@ -31,3 +31,12 @@ git clone <repo url>
 Go to the branches page on the bitbucket website
 Select all branches
 Hover over the modal for your branch and it will say how many commits ahead and behind you are.  You must be 0 behind main before you can push 
+
+
+### How do I change code and submit a pull request.
+* You cannnot submit pull requests tot he main branch.  They will be auto-rejected by policy.
+* Got to bitbucket and select the repository.  
+* Select the branches section on the left side.  Choose Create Branch (upper right) and give it a name that is memorable to you.
+* Select Check Out (upper left) and copy the string
+* Go to the terminal and run git fetch or git pull
+* Past the check out command and type git branch to confirm you are on your branch
