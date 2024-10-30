@@ -53,7 +53,7 @@ def plotting(results, results_dir, benchmark, LIVE_DATE='2023-01-01'):
     ax.grid(True)
 
     fig.tight_layout()
-    plt.savefig(os.path.join(results_dir, 'ending_cash.png'), bbox_inches='tight')
+    plt.savefig(os.path.join("./plots/temp", 'ending_cash.png'), bbox_inches='tight')
 
     # Generate and save a full tear sheet using pyfolio
     pf.create_full_tear_sheet(returns,
