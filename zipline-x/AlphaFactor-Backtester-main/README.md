@@ -12,11 +12,11 @@ export QUANDL_API_KEY=tw2sxkKZo_y1UvMcnSux
 ### Required Installations
 To get started, you need to install two additional packages: zipline-reloaded and pyfolio-reloaded.
 
-New Multi-module git repo - This repo has pyfolio-reloaded and zipline-reloaded submodules
-git clone https://HighlyUnlikely22@bitbucket.org/exponential-tech/edge-seeker.git 
-cd edge-seeker
-git submodule init
-git submodule update
+## New Multi-module git repo - This repo has pyfolio-reloaded and zipline-reloaded submodules
+1. git clone https://HighlyUnlikely22@bitbucket.org/exponential-tech/edge-seeker.git 
+2. cd edge-seeker
+3. git submodule init
+4. git submodule update
 
 
 Old Instructions -- TO BE REMOVED
